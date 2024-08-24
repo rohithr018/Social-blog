@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
     },
     profilePicture: {
         type: String,
-        default: "https://cdn.vectorstock.com/i/500p/01/28/profile-photo-logo-sign-outline-vector-51950128.jpg"
+        default: "https://shorturl.at/F3W9R"
     },
     isAdmin: {
         type: Boolean,

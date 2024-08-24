@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Home from './pages/Home'
 import About from './pages/About'
 import SignIn from './pages/SignIn'
@@ -11,16 +11,19 @@ import Footer from './components/Footer'
 import PrivateRoute from './components/PrivateRoute'
 import CreatePost from './pages/CreatePost'
 import OnlyAdminPrivateRoute from './components/OnlyAdminPrivateRoute'
+import { useSelector } from 'react-redux'
 
 export default function App() {
+  const user = useSelector((state) => state.user.currentUser)
+  //console.log(user)
   return (
     <BrowserRouter>
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
-        <Route path="/sign-in" element={<SignIn />} />
-        <Route path="/sign-up" element={<SignUp />} />
+        <Route path="/sign-in" element={user ? <Navigate to="/" /> : <SignIn />} />
+        <Route path="/sign-up" element={user ? <Navigate to="/" /> : <SignUp />} />
         <Route element={<PrivateRoute />}>
           <Route path="/dashboard" element={<Dashboard />} />
         </Route>
