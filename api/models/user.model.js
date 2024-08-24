@@ -19,6 +19,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: "https://cdn.vectorstock.com/i/500p/01/28/profile-photo-logo-sign-outline-vector-51950128.jpg"
     },
+    isAdmin: {
+        type: Boolean,
+        default: false
+    },
 }, { timestamps: true }
 );
 

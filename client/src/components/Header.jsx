@@ -1,17 +1,42 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Avatar, Button, Dropdown, Navbar, TextInput } from 'flowbite-react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { FaMoon } from 'react-icons/fa';
 import { LuMoon, LuSun } from "react-icons/lu";
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleTheme } from '../redux/theme/themeSlice'
+import { signoutSuccess } from '../redux/user/userSlice';
+import { GoPlus } from "react-icons/go";
 // import WbSunnyRoundedIcon from '@mui/icons-material'
 export default function Header() {
     const path = useLocation().pathname;
     const dispatch = useDispatch();
     const { currentUser } = useSelector(state => state.user)
+    const navigate = useNavigate();
     const { theme } = useSelector(state => state.theme)
+    //const [hover, setHover] = useState(false);
+
+    const handleSignout = async () => {
+        try {
+            const res = await fetch('/api/user/signout', {
+                method: 'POST'
+            })
+
+            const data = await res.json()
+            if (!res.ok) {
+                console.log(data.message)
+            } else {
+                dispatch(signoutSuccess())
+                navigate('/sign-in')
+            }
+
+        } catch (err) {
+            console.log(err)
+        }
+
+
+    }
 
     return (
         <Navbar className='sticky top-0 z-50 border-b-2 dark:border-gray-700'>
@@ -29,25 +54,52 @@ export default function Header() {
                     className='dark:bg-gray-700 dark:border-gray-400'
                 />
             </form>
-            <Button className='w-12 h-10 lg:hidden' color='gray' pill>
+            {/* <Button className='w-12 h-10 lg:hidden' color='gray' pill>
                 <AiOutlineSearch className='text-gray-500 dark:text-gray-400' />
-            </Button>
-            <div className='flex gap-5 items-center md:order-2'>
-
-                <Button
-                    className='w-12 h-10 p-0 flex items-center justify-center sm:inline  text-2xl'
-                    color='gray'
-                    pill
+            </Button> */}
+            <div
+                className='w-10 h-10 flex items-center justify-center rounded-full bg-white dark:bg-gray-700 cursor-pointer transition-transform transform hover:scale-105 hover:bg-gray-50 dark:hover:bg-gray-600 shadow-sm hover:shadow-lg lg:hidden'
+                onClick={() => console.log('Search clicked')} // Replace with your search function
+            >
+                <AiOutlineSearch
+                    style={{
+                        fontSize: '1.5rem',
+                        fontWeight: 'bold',
+                    }}
+                />
+            </div>
+            <div className='flex gap-5 items-center md:order-3'>
+                {/* Create post icon*/}
+                {
+                    currentUser?.isAdmin && (
+                        <Link to={'/create-post'}>
+                            <div
+                                className='w-10 h-10 flex items-center justify-center rounded-full bg-white dark:bg-gray-700 cursor-pointer transition-transform transform hover:scale-105 hover:bg-gray-50 dark:hover:bg-gray-600 shadow-sm hover:shadow-lg'
+                                onClick={() => {/* Handle the click action */ }}
+                            >
+                                <GoPlus
+                                    style={{
+                                        fontSize: '2rem',
+                                        fontWeight: 'bold',
+                                    }}
+                                    className='text-gray-800 dark:text-gray-200 transition-colors duration-300'
+                                />
+                            </div>
+                        </Link>
+                    )
+                }
+                {/* Theme:dark or light */}
+                <div
+                    className='w-10 h-10 flex items-center justify-center p-2 rounded-full bg-white dark:bg-gray-700 cursor-pointer transition-transform transform hover:scale-105 hover:bg-gray-50 dark:hover:bg-gray-600 shadow-sm hover:shadow-lg'
                     onClick={() => dispatch(toggleTheme())}
                 >
                     {theme === 'light' ? (
-                        <LuSun /> // Adjust size as needed
+                        <LuSun className='text-3xl text-gray-800 dark:text-yellow-400 transition-transform duration-300' />
                     ) : (
-                        <LuMoon /> // Adjust size as needed
+                        <LuMoon className='text-3xl text-gray-800 dark:text-blue-400 transition-transform duration-300' />
                     )}
-                    {/* <FaMoon className='text-gray-500 dark:text-gray-400' />
-                    <FaSun className='text-gray-500 dark:text-gray-400' /> */}
-                </Button>
+                </div>
+                {/* DropDown Navbar */}
                 {currentUser ?
                     (
                         <Dropdown
@@ -69,7 +121,7 @@ export default function Header() {
                                 <Dropdown.Item>Profile</Dropdown.Item>
                             </Link>
                             <Dropdown.Divider />
-                            <Dropdown.Item>Sign out</Dropdown.Item>
+                            <Dropdown.Item onClick={handleSignout}>Sign out</Dropdown.Item>
                             {/* <Dropdown.Header>
                                 <span className="block text-sm">@{currentUser.username}</span>
                                 <span className="block text-sm font-medium truncate">{currentUser.email}</span>
