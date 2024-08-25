@@ -20,8 +20,8 @@ const postSchema = new mongoose.Schema(
             default: "https://shorturl.at/pIBST"
         },
         category: {
-            type: String,
-            default: 'uncategorized',
+            type: [String],
+            default: ['uncategorized'],
         },
         slug: {
             type: String,

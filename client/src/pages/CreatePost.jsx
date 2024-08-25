@@ -1,12 +1,16 @@
 import React, { useState } from 'react'
-import { Alert, Button, FileInput, Select, TextInput } from 'flowbite-react'
+import { Alert, Button, FileInput, TextInput } from 'flowbite-react'
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { app } from '../firebase.js';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
+
+import Autocomplete from '@mui/material/Autocomplete';
+import { TextField } from '@mui/material';
+
 export default function CreatePost() {
     const [file, setFile] = useState(null);
     const [formData, setFormData] = useState({});
@@ -15,6 +19,8 @@ export default function CreatePost() {
     const [imageUploadError, setImageUploadError] = useState(null);
 
     const [publishError, setPublishError] = useState(null);
+
+    const [selectedOptions, setSelectedOptions] = useState([]);
 
     const navigate = useNavigate()
     //ImageUpload
@@ -85,23 +91,42 @@ export default function CreatePost() {
 
     }
 
+    const handleChange = (event, newValue) => {
+        // Limit the selection to 2 options
+        setSelectedOptions(newValue);
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            category: newValue.map(option => option.value) // Ensure `category` is an array of selected values
+        }));
+    };
+
+    const categorytags = [
+        { title: 'a', value: 'a' },
+        { title: 'b', value: 'b' },
+        { title: 'c', value: 'c' },
+        { title: 'd', value: 'd' },
+        { title: 'e', value: 'e' },
+        { title: 'f', value: 'f' },
+        { title: 'g', value: 'g' },
+        { title: 'h', value: 'h' },
+    ]
     //console.log(formData)
     return (
-        <div className='p-3 max-w-3xl mx-auto min-h-screen'>
+        <div className='p-6 max-w-3xl mx-auto min-h-screen'>
             <h1 className="text-center text-3xl my-7 font-semibold">Create New Post</h1>
             <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-                <div className="flex flex-col gap-4 sm:flex-row justify-between">
+                <div className="flex flex-col gap-4 ">
                     <TextInput
                         type='text'
                         placeholder='Title '
                         required
                         id='title'
-                        className='flex-1'
+                        className='w-full'
                         onChange={
                             (e) => setFormData({ ...formData, title: e.target.value })
                         }
                     />
-                    <Select
+                    {/* <Select
                         onChange={
                             (e) => setFormData({ ...formData, category: e.target.value })
                         }
@@ -111,7 +136,29 @@ export default function CreatePost() {
                         <option value="nodejs">Nodejs</option>
                         <option value="nextjs">Nextjs</option>
                         <option value="mongodb">Mongodb</option>
-                    </Select>
+                    </Select> */}
+                    <div className="my-4 ">
+                        <Autocomplete
+                            multiple
+                            limitTags={2}
+                            id="multiple-limit-tags"
+                            options={categorytags}
+                            getOptionLabel={(option) => option.title}
+                            value={selectedOptions}
+                            onChange={handleChange}
+                            isOptionEqualToValue={(option, value) => option.title === value.title}
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    label="Tags"
+                                    placeholder="Select tags"
+                                    variant="outlined"
+                                    className="w-full"
+                                />
+                            )}
+                        />
+                    </div>
+
                 </div>
                 <div className="flex gap-4 items-center justify-between border-4 border-teal-500 border-dotted p-3">
                     <FileInput type='file' accept='image/*' onChange={(e) => setFile(e.target.files[0])} />
