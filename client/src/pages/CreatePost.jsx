@@ -96,20 +96,28 @@ export default function CreatePost() {
         setSelectedOptions(newValue);
         setFormData(prevFormData => ({
             ...prevFormData,
-            category: newValue.map(option => option.value) // Ensure `category` is an array of selected values
+            category: newValue.map(option => option.title) // Ensure `category` is an array of selected values
         }));
     };
 
     const categorytags = [
-        { title: 'a', value: 'a' },
-        { title: 'b', value: 'b' },
-        { title: 'c', value: 'c' },
-        { title: 'd', value: 'd' },
-        { title: 'e', value: 'e' },
-        { title: 'f', value: 'f' },
-        { title: 'g', value: 'g' },
-        { title: 'h', value: 'h' },
-    ]
+        { title: 'Algorithms', value: 'algorithms' },
+        { title: 'Data Structures', value: 'data-structures' },
+        { title: 'Machine Learning', value: 'machine-learning' },
+        { title: 'Artificial Intelligence', value: 'artificial-intelligence' },
+        { title: 'Web Development', value: 'web-development' },
+        { title: 'Cybersecurity', value: 'cybersecurity' },
+        { title: 'Database Systems', value: 'database-systems' },
+        { title: 'Operating Systems', value: 'operating-systems' },
+        { title: 'Computer Networks', value: 'computer-networks' },
+        { title: 'Software Engineering', value: 'software-engineering' },
+        { title: 'Cloud Computing', value: 'cloud-computing' },
+        { title: 'Big Data', value: 'big-data' },
+        { title: 'Blockchain', value: 'blockchain' },
+        { title: 'Computer Vision', value: 'computer-vision' },
+        { title: 'Natural Language Processing', value: 'natural-language-processing' },
+    ];
+
     //console.log(formData)
     return (
         <div className='p-6 max-w-3xl mx-auto min-h-screen'>
