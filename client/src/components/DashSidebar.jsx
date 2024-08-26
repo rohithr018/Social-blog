@@ -7,6 +7,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { signoutSuccess } from '../redux/user/userSlice';
 import { IoDocumentTextOutline } from "react-icons/io5";
+import { FaUsers } from "react-icons/fa";
 
 export default function DashSidebar() {
     const location = useLocation()
@@ -53,15 +54,26 @@ export default function DashSidebar() {
                     </Link>
                     {
                         currentUser.isAdmin &&
-                        <Link to='/dashboard?tab=posts'>
-                            <Sidebar.Item
-                                active={tab === 'posts'}
-                                icon={IoDocumentTextOutline}
-                                as='div'
-                            >
-                                Posts
-                            </Sidebar.Item>
-                        </Link>
+                        <>
+                            <Link to='/dashboard?tab=posts'>
+                                <Sidebar.Item
+                                    active={tab === 'posts'}
+                                    icon={IoDocumentTextOutline}
+                                    as='div'
+                                >
+                                    Posts
+                                </Sidebar.Item>
+                            </Link>
+                            <Link to='/dashboard?tab=users'>
+                                <Sidebar.Item
+                                    active={tab === 'users'}
+                                    icon={FaUsers}
+                                    as='div'
+                                >
+                                    Users
+                                </Sidebar.Item>
+                            </Link>
+                        </>
                     }
                     <Sidebar.Item
                         className='cursor-pointer'
