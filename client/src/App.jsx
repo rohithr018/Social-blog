@@ -12,6 +12,7 @@ import PrivateRoute from './components/PrivateRoute'
 import CreatePost from './pages/CreatePost'
 import OnlyAdminPrivateRoute from './components/OnlyAdminPrivateRoute'
 import { useSelector } from 'react-redux'
+import UpdatePost from './pages/UpdatePost'
 
 export default function App() {
   const user = useSelector((state) => state.user.currentUser)
@@ -29,6 +30,7 @@ export default function App() {
         </Route>
         <Route element={<OnlyAdminPrivateRoute />}>
           <Route path="/create-post" element={<CreatePost />} />
+          <Route path="/update-post/:postId" element={<UpdatePost />} />
         </Route>
         <Route path="/projects" element={<Projects />} />
       </Routes>

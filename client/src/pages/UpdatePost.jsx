@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Alert, Button, FileInput, TextInput } from 'flowbite-react'
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -6,28 +6,34 @@ import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/
 import { app } from '../firebase.js';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-import { useNavigate } from 'react-router-dom';
-
+import { useNavigate, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux'
 import Autocomplete from '@mui/material/Autocomplete';
 import { TextField } from '@mui/material';
 
-export default function CreatePost() {
+export default function UpdatePost() {
+    const { currentUser } = useSelector(state => state.user)
     const [file, setFile] = useState(null);
     const [formData, setFormData] = useState({});
-
     const [imageUploadProgress, setImageUploadProgress] = useState(null);
     const [imageUploadError, setImageUploadError] = useState(null);
-
     const [publishError, setPublishError] = useState(null);
-
     const [selectedOptions, setSelectedOptions] = useState([]);
-
+    const { postId } = useParams();
     const navigate = useNavigate()
+
     //ImageUpload
     const handleUploadImage = async () => {
+        const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
+
         if (!file) {
             setImageUploadError('Please select an image');
             return; // Exit early if no file is selected
+        }
+
+        if (file.size > MAX_FILE_SIZE) {
+            setImageUploadError('File size exceeds 2MB');
+            return; // Exit early if the file is too large
         }
         setImageUploadError(null);
         try {
@@ -68,8 +74,8 @@ export default function CreatePost() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await fetch('/api/post/create', {
-                method: 'POST',
+            const res = await fetch(`/api/post/updatepost/${formData._id}/${currentUser._id}`, {
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -96,7 +102,7 @@ export default function CreatePost() {
         setSelectedOptions(newValue);
         setFormData(prevFormData => ({
             ...prevFormData,
-            category: newValue// Ensure `category` is an array of selected values
+            category: newValue // Ensure `category` is an array of selected values
         }));
     };
 
@@ -104,9 +110,37 @@ export default function CreatePost() {
     ];
 
     //console.log(formData)
+
+
+    useEffect(() => {
+
+        const fetchPost = async () => {
+            try {
+                const res = await fetch(`/api/post/getposts?postId=${postId}`)
+                const data = await res.json()
+                if (!res.ok) {
+                    console.log(data.message);
+                    setPublishError(data.message);
+                    return;
+                }
+                if (res.ok) {
+                    setPublishError(null)
+                    setFormData(data.posts[0]);
+                    setSelectedOptions(data.posts[0].category)
+                    //console.log(data.posts[0])
+                }
+
+            } catch (err) {
+                console.log(err.message);
+            }
+        }
+        fetchPost();
+    }, [postId]);
+
+    //console.log(formData.image)
     return (
         <div className='p-6 max-w-3xl mx-auto min-h-screen'>
-            <h1 className="text-center text-3xl my-7 font-semibold">Create New Post</h1>
+            <h1 className="text-center text-3xl my-7 font-semibold">Update  Post</h1>
             <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
                 <div className="flex flex-col gap-4 ">
                     <TextInput
@@ -118,6 +152,7 @@ export default function CreatePost() {
                         onChange={
                             (e) => setFormData({ ...formData, title: e.target.value })
                         }
+                        value={formData.title}
                     />
                     {/* <Select
                         onChange={
@@ -164,7 +199,10 @@ export default function CreatePost() {
                         {
                             imageUploadProgress ?
                                 <div className="w-16 h-16">
-                                    <CircularProgressbar value={imageUploadProgress} text={`${imageUploadProgress || 0}%`} />
+                                    <CircularProgressbar
+                                        value={imageUploadProgress}
+                                        text={`${imageUploadProgress || 0}%`}
+                                    />
                                 </div>
                                 : 'Upload Image'
                         }
@@ -193,12 +231,13 @@ export default function CreatePost() {
                             setFormData({ ...formData, content: value })
                         }
                     }
+                    value={formData.content}
                 />
                 <Button
                     type='submit'
                     gradientDuoTone='purpleToPink'
                 >
-                    Publish
+                    Update
                 </Button>
                 {
                     publishError &&
