@@ -13,12 +13,15 @@ import CreatePost from './pages/CreatePost'
 import OnlyAdminPrivateRoute from './components/OnlyAdminPrivateRoute'
 import { useSelector } from 'react-redux'
 import UpdatePost from './pages/UpdatePost'
+import PostPage from './pages/PostPage'
+import ScrollToTop from './components/ScrollToTop'
 
 export default function App() {
   const user = useSelector((state) => state.user.currentUser)
   //console.log(user)
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -33,6 +36,7 @@ export default function App() {
           <Route path="/update-post/:postId" element={<UpdatePost />} />
         </Route>
         <Route path="/projects" element={<Projects />} />
+        <Route path="/post/:postSlug" element={<PostPage />} />
       </Routes>
       <Footer />
     </BrowserRouter>
