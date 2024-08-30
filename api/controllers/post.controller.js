@@ -126,3 +126,14 @@ export const updatepost = async (req, res, next) => {
         next(err)
     }
 }
+
+export const getpost = async (req, res, next) => {
+    try {
+        const post = await Post.findById(req.params.postId)
+        return res.status(200).json(post)
+
+    } catch (err) {
+        next(err)
+    }
+
+}
