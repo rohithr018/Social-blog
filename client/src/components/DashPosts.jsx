@@ -127,7 +127,7 @@ export default function DashPosts() {
                                                 {post.category[1] && <div className="flex items-center justify-center bg-gray-200 text-gray-700 dark:text-gray-100 dark:bg-[rgb(33,42,67)] p-2 rounded-lg">
                                                     {post.category[1]}
                                                 </div>}
-                                                {post.category.length > 2 && <div className="flex items-center justify-center text-gray-700 dark:text-gray-100 p-2 rounded-lg">
+                                                {post.category.length > 2 && <div className="flex items-center justify-center bg-gray-300 dark:bg-[rgb(33,42,67)] text-gray-700 dark:text-gray-100 p-2 rounded-lg">
                                                     <span>+{post.category.length - 2}</span>
                                                 </div>}
                                             </Link>
