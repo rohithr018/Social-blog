@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { Sidebar } from 'flowbite-react'
 // import { HiUser } from "react-icons/hi";
 // import { FaUserAlt } from "react-icons/fa";
-import { CiUser, CiLogout } from "react-icons/ci";
+import { CiLogout } from "react-icons/ci";
 import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { signoutSuccess } from '../redux/user/userSlice';
 import { IoDocumentText } from "react-icons/io5";
-import { HiAnnotation } from "react-icons/hi";
+import { HiAnnotation, HiChartPie } from "react-icons/hi";
 import { FaUser } from "react-icons/fa";
 import { FaUsers } from "react-icons/fa";
 
@@ -43,6 +43,17 @@ export default function DashSidebar() {
         <Sidebar className='w-full md:w-56'>
             <Sidebar.Items>
                 <Sidebar.ItemGroup className='flex flex-col gap-1'>
+                    {currentUser && currentUser.isAdmin && (
+                        <Link to='/dashboard?tab=dash'>
+                            <Sidebar.Item
+                                active={tab === 'dash' || !tab}
+                                icon={HiChartPie}
+                                as='div'
+                            >
+                                Dashboard
+                            </Sidebar.Item>
+                        </Link>
+                    )}
                     <Link to="/dashboard?tab=profile">
                         <Sidebar.Item
                             active={tab === 'profile'}

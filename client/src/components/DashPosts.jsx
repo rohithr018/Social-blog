@@ -74,6 +74,10 @@ export default function DashPosts() {
         }
     }, [currentUser._id])
 
+    const truncateTitle = (title, maxLength) => {
+        return title.length > maxLength ? title.slice(0, maxLength) + '...' : title;
+    };
+
     //console.log(userPosts)
     return (
         <div className='table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500'>
@@ -113,7 +117,7 @@ export default function DashPosts() {
                                                 className='font-medium text-gray-700 dark:text-white'
                                                 to={`/post/${post.slug}`}
                                             >
-                                                {post.title}
+                                                {truncateTitle(post.title, 40)}
                                             </Link>
                                         </Table.Cell>
                                         <Table.Cell >
