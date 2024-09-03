@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
 import { signInStart, signInSuccess, signInFailure } from '../redux/user/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import Oauth from '../components/Oauth';
+import OAuth from '../components/OAuth';
 
 export default function SignIn() {
     const [formData, setFormData] = useState({});
@@ -109,7 +109,7 @@ export default function SignIn() {
                                     <Spinner className='text-center' size='lg' />
                                 ) : ('Sign In')}
                             </Button>
-                            <Oauth />
+                            <OAuth />
                         </form>
                         <div className="flex gap-2 text-sm mt-5">
                             <span>Don't Have an Account?</span>
