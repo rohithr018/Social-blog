@@ -125,13 +125,13 @@ export default function DashPosts() {
                                                 to={`/post/${post.slug}`}
                                                 className="flex flex-row space-x-2"
                                             >
-                                                <div className="flex items-center justify-center bg-gray-200 text-gray-700 dark:text-gray-100 dark:bg-[rgb(33,42,67)] p-2 rounded-lg">
+                                                <div className="flex items-center justify-center bg-gray-200 text-gray-700 dark:text-gray-100 dark:bg-[rgb(33,42,67)] px-3 p-1 rounded-full">
                                                     {post.category[0]}
                                                 </div>
-                                                {post.category[1] && <div className="flex items-center justify-center bg-gray-200 text-gray-700 dark:text-gray-100 dark:bg-[rgb(33,42,67)] p-2 rounded-lg">
+                                                {post.category[1] && <div className="flex items-center justify-center bg-gray-200 text-gray-700 dark:text-gray-100 dark:bg-[rgb(33,42,67)] px-3 p-1 rounded-full">
                                                     {post.category[1]}
                                                 </div>}
-                                                {post.category.length > 2 && <div className="flex items-center justify-center bg-gray-300 dark:bg-[rgb(33,42,67)] text-gray-700 dark:text-gray-100 p-2 rounded-lg">
+                                                {post.category.length > 2 && <div className="flex items-center justify-center bg-gray-300 dark:bg-[rgb(33,42,67)] text-gray-700 dark:text-gray-100 px-3 p-1 rounded-full">
                                                     <span>+{post.category.length - 2}</span>
                                                 </div>}
                                             </Link>

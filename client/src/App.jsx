@@ -5,7 +5,7 @@ import About from './pages/About'
 import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 import Dashboard from './pages/Dashboard'
-import Projects from './pages/Projects'
+import Blogs from './pages/Blogs'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import PrivateRoute from './components/PrivateRoute'
@@ -15,6 +15,7 @@ import { useSelector } from 'react-redux'
 import UpdatePost from './pages/UpdatePost'
 import PostPage from './pages/PostPage'
 import ScrollToTop from './components/ScrollToTop'
+import Search from './pages/Search'
 
 export default function App() {
   const user = useSelector((state) => state.user.currentUser)
@@ -35,7 +36,7 @@ export default function App() {
           <Route path="/create-post" element={<CreatePost />} />
           <Route path="/update-post/:postId" element={<UpdatePost />} />
         </Route>
-        <Route path="/projects" element={<Projects />} />
+        <Route path="/blogs" element={<Blogs />} />
         <Route path="/post/:postSlug" element={<PostPage />} />
       </Routes>
       <Footer />

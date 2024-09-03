@@ -117,7 +117,7 @@ export default function DashboardComp() {
 
             {/* Tables */}
             <div className='flex flex-wrap gap-4 py-3 mx-auto justify-center'>
-                {/* Revcent Users */}
+                {/* Recent Users */}
                 <div className='flex flex-col w-full md:w-auto shadow-md p-2 rounded-md dark:bg-gray-800'>
                     <div className='flex justify-between  p-3 text-sm font-semibold'>
                         <h1 className='text-center p-2'>Recent users</h1>
@@ -164,7 +164,7 @@ export default function DashboardComp() {
                             comments.map((comment) => (
                                 <Table.Body key={comment._id} className='divide-y'>
                                     <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
-                                        <Table.Cell className='w-96'>
+                                        <Table.Cell className='w-80'>
                                             <p className='line-clamp-2'>{comment.content}</p>
                                         </Table.Cell>
                                         <Table.Cell>{comment.numberOfLikes}</Table.Cell>
@@ -194,12 +194,30 @@ export default function DashboardComp() {
                                         <Table.Cell>
                                             <img
                                                 src={post.image}
-                                                alt='user'
+                                                alt='post'
                                                 className='w-14 h-10 rounded-md bg-gray-500'
                                             />
                                         </Table.Cell>
-                                        <Table.Cell className='w-96'>{post.title}</Table.Cell>
-                                        <Table.Cell className='w-5'>{post.category}</Table.Cell>
+                                        <Table.Cell className='w-80'>
+                                            <p className='line-clamp-1'>{post.title}</p>
+                                        </Table.Cell>
+                                        <Table.Cell >
+                                            <div className="flex gap-1 items-center">
+                                                {post.category.slice(0, 2).map((cat, index) => (
+                                                    <span
+                                                        key={index}
+                                                        className=" bg-gray-200 text-gray-700 dark:text-gray-100 dark:bg-[rgb(33,42,67)] px-3 p-1 rounded-full"
+                                                    >
+                                                        {cat}
+                                                    </span>
+                                                ))}
+                                                {post.category.length > 2 && (
+                                                    <span className=" bg-gray-200 text-gray-700 dark:text-gray-100 dark:bg-[rgb(33,42,67)]  px-3 p-1 rounded-full ">
+                                                        +{post.category.length - 2}
+                                                    </span>
+                                                )}
+                                            </div>
+                                        </Table.Cell>
                                     </Table.Row>
                                 </Table.Body>
                             ))}
@@ -209,19 +227,3 @@ export default function DashboardComp() {
         </div>
     );
 }
-
-{/* <div className="flex flex-wrap gap-2">
-                                            {post.category.slice(0, 2).map((cat, index) => (
-                                                <span
-                                                    key={index}
-                                                    className="bg-gray-200 text-gray-700 dark:bg-gray-600 dark:text-gray-100 px-3 py-1 rounded-full text-xs"
-                                                >
-                                                    {cat}
-                                                </span>
-                                            ))}
-                                            {post.category.length > 2 && (
-                                                <span className="bg-gray-300 text-gray-700 dark:bg-gray-600 dark:text-gray-100 px-3 py-1 rounded-full text-xs">
-                                                    +{post.category.length - 2}
-                                                </span>
-                                            )}
-                                        </div> */}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Avatar, Button, Dropdown, Navbar, TextInput } from 'flowbite-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AiOutlineSearch } from 'react-icons/ai';
@@ -11,11 +11,21 @@ import { GoPlus } from "react-icons/go";
 // import WbSunnyRoundedIcon from '@mui/icons-material'
 export default function Header() {
     const path = useLocation().pathname;
+    const location = useLocation()
     const dispatch = useDispatch();
     const { currentUser } = useSelector(state => state.user)
     const navigate = useNavigate();
     const { theme } = useSelector(state => state.theme)
-    //const [hover, setHover] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
+
+    useEffect(() => {
+        const urlParams = new URLSearchParams(location.search);
+        const searchTermFromUrl = urlParams.get('searchTerm');
+        if (searchTermFromUrl) {
+            setSearchTerm(searchTermFromUrl)
+        }
+
+    }, [location.search])
 
     const handleSignout = async () => {
         try {
@@ -38,6 +48,16 @@ export default function Header() {
 
     }
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const urlParams = new URLSearchParams(location.search);
+        urlParams.set('searchTerm', searchTerm)
+        navigate(`/blogs?${urlParams.toString()}`)
+    }
+
+    console.log(searchTerm)
+
+
     return (
         <Navbar className='sticky top-0 z-50 border-b-2 dark:border-gray-700'>
             <Link to="/" className='self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white'>
@@ -46,12 +66,17 @@ export default function Header() {
                 </span>
                 Blog
             </Link>
-            <form className='hidden lg:block'>
+            <form
+                className='hidden lg:block'
+                onSubmit={handleSubmit}
+            >
                 <TextInput
                     type='text'
                     placeholder='Search...'
                     rightIcon={AiOutlineSearch}
                     className='dark:bg-gray-700 dark:border-gray-400'
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
                 />
             </form>
             {/* <Button className='w-12 h-10 lg:hidden' color='gray' pill>
@@ -150,8 +175,8 @@ export default function Header() {
                 <Navbar.Link as={Link} to="/about" active={path === "/about"} className='dark:text-white'>
                     About
                 </Navbar.Link>
-                <Navbar.Link as={Link} to="/projects" active={path === "/projects"} className='dark:text-white'>
-                    Projects
+                <Navbar.Link as={Link} to="/blogs" active={path === "/blogs"} className='dark:text-white'>
+                    Blogs
                 </Navbar.Link>
             </Navbar.Collapse>
         </Navbar>

@@ -143,7 +143,7 @@ export default function DashUsers() {
                 )
                 :
                 (
-                    <p>no users</p>
+                    <p>no users</p>/* add seperate component*/
                 )
             }
             <Modal
