@@ -16,6 +16,8 @@ import UpdatePost from './pages/UpdatePost'
 import PostPage from './pages/PostPage'
 import ScrollToTop from './components/ScrollToTop'
 import Search from './pages/Search'
+import TandC from './pages/TandC'
+import PrivacyPolicy from './pages/PrivacyPolicy'
 
 export default function App() {
   const user = useSelector((state) => state.user.currentUser)
@@ -38,6 +40,8 @@ export default function App() {
         </Route>
         <Route path="/blogs" element={<Blogs />} />
         <Route path="/post/:postSlug" element={<PostPage />} />
+        <Route path="/t&c" element={<TandC />} />
+        <Route path="/privacypolicy" element={<PrivacyPolicy />} />
       </Routes>
       <Footer />
     </BrowserRouter>

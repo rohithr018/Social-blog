@@ -32,12 +32,12 @@ const About = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1, ease: 'easeOut', delay: 0.5 }}
                 >
-                    We are dedicated to bringing you the latest and most innovative ideas. Our platform is a place for creative solutions and future trends. Discover amazing content, stay updated with our latest posts, and be a part of our community.
+                    At ThoughtPulse, we share the latest and most groundbreaking ideas. Our platform is where creativity meets innovation, and where you can explore the future of technology and trends.
                 </motion.p>
 
                 {/* Button Animation */}
                 <motion.a
-                    href="/contact"
+                    href="mailto:rohith018.r@gmail.com"
                     className="inline-block px-6 py-3 bg-teal-500 text-white rounded-full shadow-lg hover:bg-teal-600 transition duration-300 transform hover:scale-110"
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}

@@ -15,7 +15,7 @@ const Home = () => {
                 transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
             ></motion.div>
 
-            <div className="relative z-10 flex flex-col items-center justify-center p-6 text-center">
+            <div className="relative z-10 flex flex-col items-center justify-center p-2 text-center">
                 {/* Header Animation */}
                 <motion.h1
                     className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-500 mb-6"
@@ -26,7 +26,8 @@ const Home = () => {
                     Welcome to <br />
                     <span className="inline-block">
                         <Typewriter
-                            words={['Innovative Ideas', 'Creative Solutions', 'Future Trends']}
+                            words={['Innovative Ideas', 'Creative Solutions', 'Future Trends', 'Tech Insights']}
+
                             loop={0}
                             cursor
                             cursorStyle='|'

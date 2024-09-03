@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import PostCard from '../components/PostCard';
 
 export default function Blogs() {
-    const [sidebarData, setSidebarData] = useState('');
+    const [sidebarData, setSidebarData] = useState({ searchTerm: '', sort: 'desc', category: '' });
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(false);
     const [showMore, setShowMore] = useState(false);
@@ -57,7 +57,7 @@ export default function Blogs() {
     };
 
     const handleClearFilters = () => {
-        setSidebarData('');
+        setSidebarData({ searchTerm: '', sort: 'desc', category: '' });
         updateUrlParams('');
     };
 
@@ -74,75 +74,78 @@ export default function Blogs() {
     };
 
     return (
-        <div className="flex flex-col md:flex-row">
-            {/* Sidebar */}
-            <div className="md:min-h-screen p-7 border-b md:border-r border-gray-500">
-                <h1 className="text-3xl font-semibold p-3 border-b border-gray-500">
-                    Filters
-                </h1>
-                <form className="flex flex-col gap-6 mt-5">
-                    <div className="flex flex-col gap-2">
-                        <label htmlFor="searchTerm" className="font-semibold">
-                            Search Term:
-                        </label>
-                        <TextInput
-                            id="searchTerm"
-                            placeholder="Search..."
-                            value={sidebarData.searchTerm}
-                            onChange={handleChange}
-                        />
-                    </div>
-                    <div className="flex flex-col gap-2">
-                        <label htmlFor="sort" className="font-semibold">
-                            Sort:
-                        </label>
-                        <Select id="sort" value={sidebarData.sort} onChange={handleChange}>
-                            <option value="desc">Latest</option>
-                            <option value="asc">Oldest</option>
-                        </Select>
-                    </div>
-                    <div className="flex flex-col gap-2">
-                        <label htmlFor="category" className="font-semibold">
-                            Category:
-                        </label>
-                        <Select
-                            id="category"
-                            value={sidebarData.category}
-                            onChange={handleChange}
-                        >
-                            <option selected>Choose Tags</option>
-                            {categorytags.map((cat) => (
-                                <option key={cat} value={cat}>{cat}</option>
-                            ))}
-                        </Select>
-                    </div>
-                    <Button gradientDuoTone="purpleToPink" onClick={handleClearFilters}>
-                        Clear Filters
-                    </Button>
-                </form>
-            </div>
+        <div className="flex flex-col min-h-screen bg-gray-100 dark:bg-gray-900">
 
-            {/* Posts Section */}
-            <div className="w-full p-7">
-                <h1 className="text-3xl font-semibold p-3 border-b border-gray-500">
-                    Post Results:
-                </h1>
-                <div className="flex flex-wrap gap-4 mt-5">
-                    {loading && <p className="text-xl text-gray-500">Loading...</p>}
-                    {!loading && posts.length === 0 && (
-                        <p className="text-xl text-gray-500">No posts found.</p>
-                    )}
-                    {!loading && posts.map((post) => (
-                        <PostCard key={post._id} post={post} />
-                    ))}
-                    {showMore && (
-                        <button
-                            onClick={handleShowMore}
-                            className="text-teal-500 text-lg hover:underline w-full mt-4"
-                        >
-                            Show More
-                        </button>
-                    )}
+            <div className="flex flex-col md:flex-row container mx-auto py-3">
+                {/* Sidebar */}
+                <div className="flex-1md:w-0.5/4 md:min-h-screen p-5 bg-white dark:bg-gray-800 border rounded-lg shadow-md">
+                    <h2 className="text-2xl font-semibold mb-4 border-b border-gray-300 dark:border-gray-600">
+                        Filters
+                    </h2>
+                    <form className="flex flex-col gap-4">
+                        <div className="flex flex-col gap-2">
+                            <label htmlFor="searchTerm" className="font-semibold text-gray-700 dark:text-gray-300">
+                                Search Term:
+                            </label>
+                            <TextInput
+                                id="searchTerm"
+                                placeholder="Search..."
+                                value={sidebarData.searchTerm}
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <div className="flex flex-col gap-2">
+                            <label htmlFor="sort" className="font-semibold text-gray-700 dark:text-gray-300">
+                                Sort:
+                            </label>
+                            <Select id="sort" value={sidebarData.sort} onChange={handleChange}>
+                                <option value="desc">Latest</option>
+                                <option value="asc">Oldest</option>
+                            </Select>
+                        </div>
+                        <div className="flex flex-col gap-2">
+                            <label htmlFor="category" className="font-semibold text-gray-700 dark:text-gray-300">
+                                Category:
+                            </label>
+                            <Select
+                                id="category"
+                                value={sidebarData.category}
+                                onChange={handleChange}
+                            >
+                                <option value="">Choose Tags</option>
+                                {categorytags.map((cat) => (
+                                    <option key={cat} value={cat}>{cat}</option>
+                                ))}
+                            </Select>
+                        </div>
+                        <Button gradientDuoTone="purpleToPink" onClick={handleClearFilters}>
+                            Clear Filters
+                        </Button>
+                    </form>
+                </div>
+
+                {/* Posts Section */}
+                <div className="flex-4 md:w-3/4 p-5 bg-white dark:bg-gray-800 border rounded-lg shadow-md">
+                    <h2 className="text-2xl font-semibold mb-4 border-b border-gray-300 dark:border-gray-600">
+                        Post Results:
+                    </h2>
+                    <div className="flex flex-wrap gap-4">
+                        {loading && <p className="text-xl text-gray-500 dark:text-gray-400">Loading...</p>}
+                        {!loading && posts.length === 0 && (
+                            <p className="text-xl text-gray-500 dark:text-gray-400">No posts found.</p>
+                        )}
+                        {!loading && posts.map((post) => (
+                            <PostCard key={post._id} post={post} />
+                        ))}
+                        {showMore && (
+                            <button
+                                onClick={handleShowMore}
+                                className="text-teal-500 text-lg hover:underline w-full mt-4"
+                            >
+                                Show More
+                            </button>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>
